@@ -25,7 +25,10 @@ public class RoleController {
 
 
 	@Autowired
-	private RoleRepository roleRepository;
+	private RoleRepository roleRepository;	
+
+	@Autowired
+	private RoleConfiguration roleConfiguration;
 
 	@RequestMapping(value = "/role/{roleName}", method=RequestMethod.GET)
 	@HystrixCommand(fallbackMethod = "getRoleByNameFallback")
@@ -37,7 +40,7 @@ public class RoleController {
 	}
 	
 	public Role getRoleByNameFallback(@PathVariable String roleName) {
-		return Role.builder().roleId(0).roleName("Default Role").description("This is default system role").build();
+		return Role.builder().roleId(roleConfiguration.getRoleId()).roleName(roleConfiguration.getDescription()).build();
 	}
 
 }
